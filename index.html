@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Aniversário, Gui! 🎂💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Slideshow de fundo */
+        .slideshow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .slideshow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 240, 245, 0.7);
+            z-index: 1;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide:nth-child(1) {
+            background-image: url('imagem1.jpg');
+        }
+
+        .slide:nth-child(2) {
+            background-image: url('imagem2.jpg');
+        }
+
+        .slide:nth-child(3) {
+            background-image: url('imagem3.jpg');
+        }
+
+        .slide:nth-child(4) {
+            background-image: url('imagem4.jpg');
+        }
+
+        .slide:nth-child(5) {
+            background-image: url('imagem5.jpg');
+        }
+
+        .slide:nth-child(6) {
+            background-image: url('imagem6.jpg');
+        }
+
+        /* Container principal */
+        .container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Seções */
+        .secao {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .secao.ativa {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cartinha */
+        .carta {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 192, 203, 0.3);
+        }
+
+        .carta h1 {
+            color: #ff6b9d;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2.2em;
+        }
+
+        .carta-texto {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            white-space: pre-line;
+        }
+
+        .botao-principal {
+            display: block;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.3);
+        }
+
+        .botao-principal:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.5);
+        }
+
+        /* Seção dos corações */
+        .game-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 192, 203, 0.3);
+        }
+
+        .game-title {
+            text-align: center;
+            color: #ff6b9d;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+        }
+
+        .hearts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+            justify-items: center;
+        }
+
+        .heart {
+            font-size: 3em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 4px 6px rgba(255, 107, 157, 0.3));
+            user-select: none;
+        }
+
+        .heart:hover:not(.clicked) {
+            transform: scale(1.2) rotate(10deg);
+            filter: drop-shadow(0 6px 12px rgba(255, 107, 157, 0.5));
+        }
+
+        .heart.clicked {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: scale(0.8);
+        }
+
+        /* Modal de frase */
+        .frase-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 90%;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            text-align: center;
+        }
+
+        .frase-modal.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .frase-texto {
+            color: #333;
+            font-size: 1.3em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .frase-modal button {
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .frase-modal button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Mensagem final */
+        .mensagem-final {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 192, 203, 0.3);
+            text-align: center;
+        }
+
+        .mensagem-final h2 {
+            color: #ff6b9d;
+            font-size: 2em;
+            margin-bottom: 25px;
+        }
+
+        .mensagem-final p {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1.1em;
+            white-space: pre-line;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ff6b9d;
+            position: absolute;
+            animation: confetti-fall 3s linear;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .carta, .game-section, .mensagem-final {
+                padding: 25px;
+            }
+
+            .carta h1, .game-title, .mensagem-final h2 {
+                font-size: 1.5em;
+            }
+
+            .carta-texto, .mensagem-final p {
+                font-size: 1em;
+            }
+
+            .hearts-container {
+                grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+                gap: 15px;
+            }
+
+            .heart {
+                font-size: 2.5em;
+            }
+
+            .frase-modal {
+                padding: 30px 20px;
+            }
+
+            .frase-texto {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Slideshow de fundo -->
+    <div class="slideshow">
+        <div class="slide active"></div>
+        <div class="slide"></div>
+        <div class="slide"></div>
+        <div class="slide"></div>
+        <div class="slide"></div>
+        <div class="slide"></div>
+    </div>
+
+    <!-- Container principal -->
+    <div class="container">
+        <!-- Seção 1: Carta -->
+        <div class="secao ativa" id="secaoCarta">
+            <div class="carta">
+                <h1>Feliz Aniversário, Gui! 🎂💕</h1>
+                <div class="carta-texto" id="textoCarta">
+Meu amor,
+
+Hoje é um dia muito especial, porque é o dia em que você veio ao mundo. E eu sou eternamente grata por isso.
+
+Você é a pessoa mais incrível que já conheci. Seu coração, sua essência, tudo em você me encanta. Cada dia ao seu lado é um presente que guardo com carinho.
+
+Preparei uma surpresa especial para você... Clique no botão abaixo e descubra! 💕
+                </div>
+                <button class="botao-principal" onclick="irParaCoracoes()">Clique aqui 💖</button>
+            </div>
+        </div>
+
+        <!-- Seção 2: Corações -->
+        <div class="secao" id="secaoCoracoes">
+            <div class="game-section">
+                <h2 class="game-title">💖 Clique em cada coração 💖</h2>
+                <div class="hearts-container" id="heartsContainer"></div>
+            </div>
+        </div>
+
+        <!-- Seção 3: Mensagem Final -->
+        <div class="secao" id="secaoFinal">
+            <div class="mensagem-final">
+                <h2>🎉 Parabéns, meu amor! 🎉</h2>
+                <p id="textoFinal">
+Gui, você acabou de descobrir apenas uma pequena parte do que sinto por você.
+
+Neste dia tão especial, quero que saiba que você é a melhor coisa que aconteceu na minha vida. Você me faz sorrir, me faz sentir amada, me faz querer ser melhor.
+
+Obrigada por existir, por ser quem você é, e por me escolher todos os dias.
+
+Que este novo ano da sua vida seja repleto de realizações, alegrias e muito amor. Eu vou estar aqui, ao seu lado, sempre.
+
+Te amo infinitamente! 💕✨
+
+Feliz aniversário! 🎂🎈
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de frase -->
+    <div class="overlay" id="overlay"></div>
+    <div class="frase-modal" id="fraseModal">
+        <div class="frase-texto" id="fraseTexto"></div>
+        <button onclick="fecharModal()">Continuar 💕</button>
+    </div>
+
+    <script>
+        const frases = [
+            "Estar com você é leve. 🌤️",
+            "Você é a minha calmaria no meio do caos. 💙",
+            "Você é incrível em cada detalhe. ✨",
+            "Você é um gato, aceita! 😏🐾",
+            "Seu sorriso é o meu lugar favorito. 😁",
+            "Obrigada por existir na minha vida. 💗",
+            "Com você, até os dias difíceis ficam mais fáceis.",
+            "Você é resposta de oração na minha vida. 🙏",
+            "Você me faz querer ser melhor todos os dias.",
+            "Eu admiro demais o homem que você é.",
+            "Você é meu porto seguro. ⚓",
+            "Você é o abraço que o meu coração sempre procura. 🤍",
+            "Nada em mim é exagero quando se trata de você.",
+            "Eu te amo mais do que consigo explicar em palavras.",
+            "Estar com você é a minha parte favorita do dia. 🌙"
+        ];
+
+        let coracoesClicados = 0;
+
+        // Slideshow
+        function iniciarSlideshow() {
+            const slides = document.querySelectorAll('.slide');
+            let slideAtual = 0;
+
+            setInterval(() => {
+                slides[slideAtual].classList.remove('active');
+                slideAtual = (slideAtual + 1) % slides.length;
+                slides[slideAtual].classList.add('active');
+            }, 5000);
+        }
+
+        // Ir para seção dos corações
+        function irParaCoracoes() {
+            document.getElementById('secaoCarta').classList.remove('ativa');
+            document.getElementById('secaoCoracoes').classList.add('ativa');
+            criarCoracoes();
+        }
+
+        // Criar corações
+        function criarCoracoes() {
+            const container = document.getElementById('heartsContainer');
+            container.innerHTML = '';
+            
+            for (let i = 0; i < frases.length; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = '❤️';
+                heart.dataset.index = i;
+                heart.onclick = () => clicarCoracao(heart, i);
+                container.appendChild(heart);
+            }
+        }
+
+        // Clicar em coração
+        function clicarCoracao(elemento, index) {
+            if (elemento.classList.contains('clicked')) return;
+
+            elemento.classList.add('clicked');
+            coracoesClicados++;
+
+            mostrarFrase(frases[index]);
+
+            if (coracoesClicados === frases.length) {
+                setTimeout(mostrarMensagemFinal, 1000);
+            }
+        }
+
+        // Mostrar frase
+        function mostrarFrase(frase) {
+            const modal = document.getElementById('fraseModal');
+            const overlay = document.getElementById('overlay');
+            const texto = document.getElementById('fraseTexto');
+
+            texto.textContent = frase;
+            modal.classList.add('show');
+            overlay.classList.add('show');
+        }
+
+        // Fechar modal
+        function fecharModal() {
+            const modal = document.getElementById('fraseModal');
+            const overlay = document.getElementById('overlay');
+
+            modal.classList.remove('show');
+            overlay.classList.remove('show');
+        }
+
+        // Mensagem final
+        function mostrarMensagemFinal() {
+            document.getElementById('secaoCoracoes').classList.remove('ativa');
+            document.getElementById('secaoFinal').classList.add('ativa');
+            criarConfetti();
+        }
+
+        // Confetti
+        function criarConfetti() {
+            const cores = ['#ff6b9d', '#ff8fab', '#ffc3d2', '#ffd4e5', '#ffe6f0'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = cores[Math.floor(Math.random() * cores.length)];
+                    confetti.style.animationDelay = Math.random() * 2 + 's';
+                    document.body.appendChild(confetti);
+
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        // Inicializar
+        window.onload = () => {
+            iniciarSlideshow();
+        };
+    </script>
+</body>
+</html>
