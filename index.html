@@ -90,7 +90,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* CAIXAS SUPER TRANSPARENTES */
+        /* Caixa de conteúdo */
         .carta,
         .game-section,
         .mensagem-final {
@@ -105,17 +105,20 @@
         }
 
         .carta h1 {
-            color: #ff6b9d;
+            color: #b026ff;
+            text-shadow: 0 0 8px #c36bff;
             text-align: center;
             margin-bottom: 25px;
             font-size: 2.2em;
         }
 
-        /* NOVA COR DO TEXTO (ROSA COMBINANDO) */
+        /* TEXTO ROXO NEON */
         .carta-texto {
-            color: #ff6b9d;
+            color: #b026ff;
+            font-weight: 600;
+            text-shadow: 0 0 6px #d98aff;
             line-height: 1.8;
-            font-size: 1.1em;
+            font-size: 1.18em;
             margin-bottom: 30px;
             white-space: pre-line;
         }
@@ -123,7 +126,7 @@
         .botao-principal {
             display: block;
             margin: 0 auto;
-            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            background: linear-gradient(135deg, #b026ff, #d46bff);
             color: white;
             border: none;
             padding: 15px 40px;
@@ -132,7 +135,7 @@
             cursor: pointer;
             font-weight: 600;
             transition: 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.3);
+            box-shadow: 0 5px 15px rgba(176, 38, 255, 0.3);
         }
 
         .botao-principal:hover {
@@ -142,7 +145,8 @@
         /* Corações */
         .game-title {
             text-align: center;
-            color: #ff6b9d;
+            color: #b026ff;
+            text-shadow: 0 0 6px #d98aff;
             margin-bottom: 30px;
             font-size: 1.8em;
         }
@@ -187,8 +191,9 @@
             transition: 0.3s ease;
             z-index: 1000;
             text-align: center;
-            color: #ff6b9d;
+            color: #b026ff;
             font-weight: 600;
+            text-shadow: 0 0 6px #d98aff;
         }
 
         .frase-modal.show {
@@ -216,15 +221,18 @@
 
         /* Final */
         .mensagem-final h2 {
-            color: #ff6b9d;
+            color: #b026ff;
             font-size: 2em;
             margin-bottom: 20px;
+            text-shadow: 0 0 6px #d98aff;
         }
 
         .mensagem-final p {
-            color: #ff6b9d;
+            color: #b026ff;
+            font-weight: 600;
+            text-shadow: 0 0 6px #d98aff;
             line-height: 1.8;
-            font-size: 1.1em;
+            font-size: 1.18em;
             white-space: pre-line;
         }
 
@@ -261,7 +269,7 @@
     <!-- Seção principal -->
     <div class="container">
 
-        <!-- Seção Carta -->
+        <!-- Carta -->
         <div class="secao ativa" id="secaoCarta">
             <div class="carta">
                 <h1>Feliz Aniversário, meu bem! 🎂💕</h1>
@@ -279,7 +287,7 @@ Hoje eu só quero te celebrar — porque você merece tudo de bom, tudo de mais 
             </div>
         </div>
 
-        <!-- Seção Corações -->
+        <!-- Corações -->
         <div class="secao" id="secaoCoracoes">
             <div class="game-section">
                 <h2 class="game-title">💖 Clique em cada coração 💖</h2>
@@ -287,7 +295,7 @@ Hoje eu só quero te celebrar — porque você merece tudo de bom, tudo de mais 
             </div>
         </div>
 
-        <!-- Final -->
+        <!-- Mensagem final -->
         <div class="secao" id="secaoFinal">
             <div class="mensagem-final">
                 <h2>🎉 Parabéns, meu amor! 🎉</h2>
@@ -409,7 +417,7 @@ Eu amo você mais do que consigo escrever. 💕
         }
 
         function criarConfetti() {
-            const cores = ['#ff6b9d', '#ff8fab', '#ffc3d2', '#ffd4e5'];
+            const cores = ['#b026ff', '#d46bff', '#e9b3ff', '#f3d8ff'];
             for (let i = 0; i < 50; i++) {
                 setTimeout(() => {
                     const c = document.createElement('div');
